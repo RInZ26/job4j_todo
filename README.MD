@@ -13,4 +13,4 @@
 ![alt text](https://i.ibb.co/7GD1yfr/3.jpg)
 
 Пример работы
-![hippo](https://i.ibb.co/TRFMjmd/job4j-TODO.gif)
+![hippo](https://media1.tenor.com/images/f27cfec637aab14dc410bdc8ce12025d/tenor.gif)
