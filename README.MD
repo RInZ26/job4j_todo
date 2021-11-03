@@ -11,3 +11,6 @@
 
 Сортировка по статусу
 ![alt text](https://i.ibb.co/7GD1yfr/3.jpg)
+
+Пример работы
+![hippo](https://i.ibb.co/TRFMjmd/job4j-TODO.gif)
