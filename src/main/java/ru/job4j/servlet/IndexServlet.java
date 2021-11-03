@@ -42,7 +42,7 @@ public class IndexServlet extends HttpServlet {
         Item item = GSON.fromJson(req.getReader(), Item.class);
         item.setCreated(Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC"))));
         item.setDone(false);
-        item = HbmStore.getInst().add(item);
+        HbmStore.getInst().add(item);
 
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();

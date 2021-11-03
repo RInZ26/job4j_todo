@@ -1,14 +1,16 @@
 package ru.job4j.store;
 
-import java.io.Closeable;
-import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import ru.job4j.entity.Item;
+
+import java.io.Closeable;
+import java.util.List;
+import java.util.function.Function;
 
 public class HbmStore implements Store, Closeable {
 
@@ -28,80 +30,63 @@ public class HbmStore implements Store, Closeable {
         return INSTANCE;
     }
 
-    @Override
-    public Item add(Item item) {
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            session.save(item);
-            session.getTransaction().commit();
+    /**
+     * Общий метод для всех транзакций через wrapper
+     *
+     * @param command
+     * @param <T>
+     * @return
+     */
+    public <T> T performTx(Function<Session, T> command) {
+        final Session session = sf.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
         }
-        return item;
+    }
+
+    @Override
+    public void add(Item item) {
+        this.performTx(s -> s.save(item));
     }
 
     @Override
     public boolean replace(Integer id, Item item) {
-        boolean result;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            int rowsWereAffected = session.createQuery("UPDATE Item SET description = :description,"
-                            + " created = :created, " + "done = :done WHERE id = :id ")
-                    .setParameter("id", id)
-                    .setParameter("description", item.getDescription())
-                    .setParameter("created", item.getCreated())
-                    .setParameter("done", item.getDone()).executeUpdate();
-            session.getTransaction().commit();
-
-            result = rowsWereAffected > 0;
-        }
-        return result;
+        return performTx(s -> s.createQuery("UPDATE Item SET description = :description,"
+                        + " created = :created, " + "done = :done WHERE id = :id ")
+                .setParameter("id", id)
+                .setParameter("description", item.getDescription())
+                .setParameter("created", item.getCreated())
+                .setParameter("done", item.getDone()).executeUpdate()) > 0;
     }
 
     @Override
     public boolean delete(Integer id) {
-        boolean result;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            int rowsWereAffected = session.createQuery("DELETE from Item WHERE id = :id")
-                    .setParameter("id", id).executeUpdate();
-            session.getTransaction().commit();
-
-            result = rowsWereAffected > 0;
-        }
-        return result;
+        return this.performTx(s -> s.createQuery("DELETE from Item WHERE id = :id")
+                .setParameter("id", id).executeUpdate() > 0);
     }
 
     @Override
     public List<Item> findAll() {
-        List<Item> result;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            result = session.createQuery("from Item order by id").list();
-            session.getTransaction().commit();
-        }
-        return result;
+        return this.<List<Item>>performTx(s -> s.createQuery("from Item order by id").list());
     }
 
     @Override
     public Item findById(Integer id) {
-        Item result;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            result = session.get(Item.class, id);
-            session.getTransaction().commit();
-        }
-        return result;
+        return this.performTx(s -> s.get(Item.class, id));
     }
 
     @Override
     public List<Item> findByDone(Boolean done) {
-        List<Item> result;
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            result = session.createQuery("from Item where done = :done order by id")
-                    .setParameter("done", done).list();
-            session.getTransaction().commit();
-        }
-        return result;
+        return this.<List<Item>>performTx(s -> s.createQuery("from Item where done = :done order by id")
+                .setParameter("done", done).list());
     }
 
     @Override
