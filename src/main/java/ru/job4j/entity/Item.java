@@ -17,7 +17,7 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
-    private Integer id;
+    private int id;
 
     @Getter
     @Setter
@@ -29,6 +29,6 @@ public class Item {
 
     @Getter
     @Setter
-    private Boolean done;
+    private boolean done;
 }
 
