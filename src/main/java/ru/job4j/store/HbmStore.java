@@ -1,20 +1,15 @@
 package ru.job4j.store;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.query.Query;
 import ru.job4j.entity.Item;
 
 import java.io.Closeable;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringJoiner;
 import java.util.function.Function;
 
 public class HbmStore implements Store, Closeable {
@@ -62,39 +57,16 @@ public class HbmStore implements Store, Closeable {
         this.performTx(s -> s.save(item));
     }
 
-    /**
-     * Замена
-     *
-     * @param id     - id
-     * @param fields мапа полей и значений, чтобы можно обновлять по-отдельности,
-     *               название - значение
-     * @return
-     */
     @Override
-    public boolean replace(Integer id, Map<String, Object> fields) {
-        StringJoiner sQuery = new StringJoiner("");
-        sQuery.add("UPDATE Item ");
-        Set<Map.Entry<String, Object>> entrySet = fields.entrySet();
-        if (CollectionUtils.isNotEmpty(entrySet)) {
-            sQuery.add("SET ");
-            for (Map.Entry<String, Object> entry : entrySet) {
-                sQuery.add(entry.getKey()).add(" = :").add(entry.getKey());
-            }
-            sQuery.add(" WHERE id = :id");
-        }
-
-        return performTx(s -> {
-            Query q = s.createQuery(sQuery.toString());
-            q.setParameter("id", id);
-            for (Map.Entry<String, Object> entry : entrySet) {
-                q.setParameter(entry.getKey(), entry.getValue());
-            }
-            return q.executeUpdate() > 0;
-        });
+    public boolean replace(int id, boolean done) {
+        return performTx(s ->
+            s.createQuery("UPDATE Item SET done = :done WHERE id = :id")
+                    .setParameter("id", id).setParameter("done", done)
+                    .executeUpdate() > 0);
     }
 
     @Override
-    public boolean delete(Integer id) {
+    public boolean delete(int id) {
         return this.performTx(s -> s.createQuery("DELETE from Item WHERE id = :id")
                 .setParameter("id", id).executeUpdate() > 0);
     }
@@ -105,12 +77,12 @@ public class HbmStore implements Store, Closeable {
     }
 
     @Override
-    public Item findById(Integer id) {
+    public Item findById(int id) {
         return this.performTx(s -> s.get(Item.class, id));
     }
 
     @Override
-    public List<Item> findByDone(Boolean done) {
+    public List<Item> findByDone(boolean done) {
         return this.<List<Item>>performTx(s -> s.createQuery("from Item where done = :done order by id")
                 .setParameter("done", done).list());
     }

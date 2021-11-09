@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Map;
 import java.util.Objects;
 
 
@@ -57,6 +56,6 @@ public class IndexServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Item item = GSON.fromJson(req.getReader(), Item.class);
 
-        HbmStore.getInst().replace(item.getId(), Map.of("done", item.isDone()));
+        HbmStore.getInst().replace(item.getId(), item.isDone());
     }
 }
