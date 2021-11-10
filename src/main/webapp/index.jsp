@@ -27,12 +27,23 @@
 <script>
 
 
-$(document).ready(
+    $(document).ready(
         getAllItems());
 </script>
 
 <body>
+<c:if test="${sessionScope.user == null}">
+    <li class="nav-item">
+        <a class="nav-link" href="<%=request.getContextPath()%>/security/login.jsp">Войти</a>
+    </li>
+</c:if>
 
+<c:if test="${sessionScope.user != null}">
+    <li class="nav-item">
+        <a class="nav-link" href="<%=request.getContextPath()%>/logout.do"> <c:out
+                value="${sessionScope.user.name}"/> | Выйти</a>
+    </li>
+</c:if>
 <form class="form-inline">
     <div class="form-group mb-2">
         <label for="staticTextDesc" class="sr-only">Email</label>
@@ -59,6 +70,7 @@ $(document).ready(
         <th>Description</th>
         <th>Created</th>
         <th>Done</th>
+        <th>Owner</th>
     </tr>
     </thead>
     <tbody id="itemsTableBody">

@@ -47,7 +47,7 @@ function addNewItem() {
         type: 'POST',
         url: 'http://localhost:8080/job4j_todo/index.do',
         data: JSON.stringify({
-            description: $('#inputDesc').val()
+            description: $('#inputDesc').val(),
         }),
         dataType: 'json'
     }).done(function (item) {
@@ -72,7 +72,7 @@ function changeItem(id, isDone) {
 }
 
 function addNewRow(item) {
-    return `<tr><th>${item.id}</th><td>${item.description}</td><td>${item.created}</td><td>` + createCheckBox(item) + `</td></tr>`;
+    return `<tr><th>${item.id}</th><td>${item.description}</td><td>${item.created}</td><td>` + createCheckBox(item) + `</td><td>${item.user.email}</td></tr>`;
 }
 
 function createCheckBox(item) {

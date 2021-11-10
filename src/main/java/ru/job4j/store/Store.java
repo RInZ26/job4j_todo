@@ -1,20 +1,23 @@
 package ru.job4j.store;
 
 import ru.job4j.entity.Item;
+import ru.job4j.entity.JUser;
 
 import java.util.List;
 
 public interface Store {
 
-    void add(Item item);
+    <T> void add(T entity);
 
-    boolean replace(int id, boolean done);
+    <T> T findById(int id, Class clazz);
 
-    boolean delete(int id);
+    <T> boolean delete(int id, Class clazz);
 
-    List<Item> findAll();
+    <T> List<T> findAll(Class clazz);
 
-    List<Item> findByDone(boolean done);
+    boolean replaceByDone(int id, boolean done);
 
-    Item findById(int id);
+    List<Item> findItemsByDone(boolean done);
+
+    JUser findUserByEmail(String email);
 }

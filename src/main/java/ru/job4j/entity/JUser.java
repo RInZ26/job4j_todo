@@ -3,13 +3,12 @@ package ru.job4j.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class Item {
+@AllArgsConstructor
+public class JUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -18,20 +17,14 @@ public class Item {
 
     @Getter
     @Setter
-    private String description;
+    private String name;
+
+    @Column(unique = true)
+    @Getter
+    @Setter
+    private String email;
 
     @Getter
     @Setter
-    private Timestamp created;
-
-    @Getter
-    @Setter
-    private boolean done;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @Getter
-    @Setter
-    private JUser user;
+    private String password;
 }
-
