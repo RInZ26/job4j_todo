@@ -1,16 +1,15 @@
 package ru.job4j.lesson.task.oneToMany;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "c_brand")
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class CarBrand {
 
@@ -27,5 +26,9 @@ public class CarBrand {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter
     @Setter
-    List<CarModel> carModels;
+    List<CarModel> carModels = new ArrayList<>();
+
+    public void addCarModel(CarModel carModel) {
+        this.carModels.add(carModel);
+    }
 }
