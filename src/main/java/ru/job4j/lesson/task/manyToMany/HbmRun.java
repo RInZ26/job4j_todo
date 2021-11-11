@@ -11,7 +11,7 @@ public class HbmRun {
 
     public static void main(String[] args) {
         addTestGrop();
-        rmTestGrop();
+    //    rmTestGrop();
     }
 
     public static void addTestGrop() {
