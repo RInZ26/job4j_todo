@@ -6,12 +6,14 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.ArrayList;
+
 public class HbmRun {
 
 
     public static void main(String[] args) {
         addTestGrop();
-    //    rmTestGrop();
+        rmTestGrop();
     }
 
     public static void addTestGrop() {
@@ -63,6 +65,8 @@ public class HbmRun {
      * author.getBooks().remove(book);
      * session.remove(book);
      * session.remove(author);
+     *
+     * или через извращение, чтобы победить ConcurrentModification
      */
     public static void rmTestGrop() {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
@@ -73,13 +77,11 @@ public class HbmRun {
             session.beginTransaction();
 
             Book book = session.get(Book.class, 2);
-            Author author1 = session.get(Author.class, 2);
-            Author author2 = session.get(Author.class, 1);
-            author2.getBooks().remove(book);
-            author1.getBooks().remove(book);
+            for (Author author : new ArrayList<>(book.getAuthors())) {
+                book.removeAuthor(author);
+            }
+
             session.remove(book);
-            session.remove(author1);
-            session.remove(author2);
 
             session.getTransaction().commit();
             session.close();
