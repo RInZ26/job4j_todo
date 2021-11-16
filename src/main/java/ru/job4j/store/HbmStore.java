@@ -77,7 +77,7 @@ public class HbmStore implements Store, Closeable {
 
 
     public List<Item> findItemsByDone(boolean done) {
-        return this.<List<Item>>performTx(s -> s.createQuery("from Item where done = :done order by id")
+        return this.<List<Item>>performTx(s -> s.createQuery("SELECT DISTINCT i FROM Item i join fetch i.categories where i.done = :done  order by i.id")
                 .setParameter("done", done).list());
     }
 
