@@ -2,6 +2,7 @@ package ru.job4j.servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import ru.job4j.entity.Category;
 import ru.job4j.entity.Item;
 import ru.job4j.entity.JUser;
 import ru.job4j.store.HbmStore;
@@ -17,7 +18,11 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class IndexServlet extends HttpServlet {
@@ -33,24 +38,34 @@ public class IndexServlet extends HttpServlet {
             isUndone = Boolean.parseBoolean(byDone.toString());
         }
         OutputStream output = resp.getOutputStream();
-        String json = isUndone ? GSON.toJson(HbmStore.getInst().findItemsByDone(false))
-                : GSON.toJson(HbmStore.getInst().findAll(Item.class));
+        Set<Item> items = isUndone ? new LinkedHashSet<>(HbmStore.getInst().findItemsByDone(false))
+                : new LinkedHashSet<>(HbmStore.getInst().findAllItems());
+        String json = GSON.toJson(items);
         output.write(json.getBytes(StandardCharsets.UTF_8));
         output.flush();
         output.close();
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Item item = GSON.fromJson(req.getReader(), Item.class);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        Item item = new Item();
         item.setCreated(Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC"))));
-        item.setDone(false);
+        item.setDescription(req.getParameter("description"));
 
         HttpSession sc = req.getSession();
         JUser user = (JUser) sc.getAttribute("user");
         item.setUser(user);
-        HbmStore.getInst().add(item);
 
+        String[] cats = req.getParameterValues("cats[]");
+
+
+        if (Objects.nonNull(cats)) {
+            item.setCategories(Arrays.stream(cats).map(c -> new Category(Integer.parseInt(c), null))
+                    .collect(Collectors.toSet()));
+        }
+
+        HbmStore.getInst().add(item);
+        item = HbmStore.getInst().findItem(item.getId());
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
         String json = GSON.toJson(item);

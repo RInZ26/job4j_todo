@@ -59,13 +59,13 @@ public class HbmStore implements Store, Closeable {
     }
 
     @Override
-    public<T> T findById(int id, Class clazz) {
+    public <T> T findById(int id, Class clazz) {
         return this.<T>performTx(s -> (T) (s.createQuery("from  " + clazz.getSimpleName()
-                        + " where id = :id").setParameter("id", id).uniqueResult()));
+                + " where id = :id").setParameter("id", id).uniqueResult()));
     }
 
     @Override
-    public<T> boolean delete(int id, Class clazz) {
+    public <T> boolean delete(int id, Class clazz) {
         return this.performTx(s -> s.createQuery("DELETE from " + clazz.getSimpleName() + " WHERE id = :id")
                 .setParameter("id", id).executeUpdate() > 0);
     }
@@ -93,6 +93,16 @@ public class HbmStore implements Store, Closeable {
     public JUser findUserByEmail(String email) {
         return this.<JUser>performTx(s -> (JUser) s.createQuery("from JUser where email = :email")
                 .setParameter("email", email).uniqueResult());
+    }
+
+    @Override
+    public List<Item> findAllItems() {
+        return this.performTx(s -> s.createQuery("FROM Item i join fetch i.categories ").list());
+    }
+
+    @Override
+    public Item findItem(int id) {
+        return this.<Item>performTx(s -> (Item) s.createQuery("SELECT DISTINCT i FROM Item i join fetch i.categories where i.id = :id").setParameter("id", id).uniqueResult());
     }
 
     @Override

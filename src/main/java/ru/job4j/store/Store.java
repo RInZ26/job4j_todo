@@ -20,4 +20,8 @@ public interface Store {
     List<Item> findItemsByDone(boolean done);
 
     JUser findUserByEmail(String email);
+
+    List<Item> findAllItems();
+
+    Item findItem(int id);
 }

@@ -25,10 +25,8 @@
 </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-
-
     $(document).ready(
-        getAllItems());
+        godBlessJs());
 </script>
 
 <body>
@@ -44,18 +42,47 @@
                 value="${sessionScope.user.name}"/> | Выйти</a>
     </li>
 </c:if>
-<form class="form-inline">
-    <div class="form-group mb-2">
-        <label for="staticTextDesc" class="sr-only">Email</label>
-        <input type="text" readonly class="form-control-plaintext" id="staticTextDesc"
-               value="New Item: ">
+
+<div class="container pt-1">
+    <div class="row">
+        <div class="card" style="width: 100%">
+            <div class="card-header" style="font-weight: bold; font-size: larger">
+                Форма для создания записи
+            </div>
+            <div class="card-body">
+                <form class="form-inline">
+                    <div class="form-group row">
+                        <label for="staticTextDesc" class="sr-only">Email</label>
+                        <input type="text" readonly class="form-control-plaintext" id="staticTextDesc"
+                               value="New Item: ">
+                    </div>
+                    <div class="col-sm-5">
+                        <label for="optionCats"></label>
+                        <select id="optionCats" class="form-control" name="optionCats" required multiple>
+
+                        </select>
+                    </div>
+            </div>
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="inputDesc" class="sr-only">Password</label>
+            <input type="text" class="form-control" id="inputDesc" required placeholder="Description">
+        </div>
+
+        <button type="submit" class="btn btn-primary mb-2" onclick="return addNewItem()">Confirm item</button>
     </div>
-    <div class="form-group mx-sm-3 mb-2">
-        <label for="inputDesc" class="sr-only">Password</label>
-        <input type="text" class="form-control" id="inputDesc" placeholder="Description">
-    </div>
-    <button type="submit" class="btn btn-primary mb-2" onclick="return addNewItem()">Confirm item</button>
+</div>
 </form>
+
+<form class="form-inline">
+    <div class="form-group mx-sm-3 mb-2">
+        <label for="addCategory" class="sr-only">Password</label>
+        <input type="text" class="form-control" id="addCategory" required placeholder="new Category">
+    </div>
+    <button type="submit" class="btn btn-primary mb-2" onclick="return addNewCategory()">Confirm category
+    </button>
+</form>
+
 <div class="form-check">
     <input class="form-check-input" type="checkbox" value="" id="byDoneCheckBox"
            onchange="showByDoneCheckBoxListener()">
@@ -71,6 +98,7 @@
         <th>Created</th>
         <th>Done</th>
         <th>Owner</th>
+        <th>Categories</th>
     </tr>
     </thead>
     <tbody id="itemsTableBody">
