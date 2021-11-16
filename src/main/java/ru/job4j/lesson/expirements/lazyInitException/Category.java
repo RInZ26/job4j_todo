@@ -1,4 +1,4 @@
-package ru.job4j.lesson.lazyInitException;
+package ru.job4j.lesson.expirements.lazyInitException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
