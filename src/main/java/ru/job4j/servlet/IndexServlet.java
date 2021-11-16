@@ -15,9 +15,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -48,9 +45,7 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        Item item = new Item();
-        item.setCreated(Timestamp.valueOf(LocalDateTime.now(ZoneId.of("UTC"))));
-        item.setDescription(req.getParameter("description"));
+        Item item = Item.of(req.getParameter("description"));
 
         HttpSession sc = req.getSession();
         JUser user = (JUser) sc.getAttribute("user");

@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +24,8 @@ public class Item {
 
     @Getter
     @Setter
-    private Timestamp created;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
 
     @Getter
     @Setter
@@ -36,11 +37,10 @@ public class Item {
     @Setter
     private JUser user;
 
-    public static Item of(String description, Timestamp created, boolean done) {
+    public static Item of(String description) {
         Item item = new Item();
         item.setDescription(description);
-        item.setCreated(created);
-        item.setDone(done);
+        item.setCreated(new Date(System.currentTimeMillis()));
         return item;
     }
 
