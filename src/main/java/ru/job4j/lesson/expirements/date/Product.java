@@ -30,8 +30,4 @@ public class Product {
         p.created = new Date(System.currentTimeMillis());
         return p;
     }
-
-    // getters and setters
-    // equals and hashcode
-    // toString
 }

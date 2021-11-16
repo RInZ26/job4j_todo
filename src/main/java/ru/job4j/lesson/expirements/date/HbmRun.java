@@ -8,6 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.Date;
+import java.util.TimeZone;
 
 public class HbmRun {
     public static void main(String[] args) {
@@ -17,16 +18,14 @@ public class HbmRun {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
             Session session = sf
                     .withOptions()
-                    //  .jdbcTimeZone(TimeZone.getTimeZone("UTC"))
+                      .jdbcTimeZone(TimeZone.getTimeZone("UTC"))
                     .openSession();
             session.beginTransaction();
 
             Product pr = Product.of("Молоко", "Савушкин продукт");
             session.save(pr);
            Date f = session.find(Product.class, 4).getCreated();
-       //     Date s = session.find(Product.class, 2).getCreated();
             System.out.println(f);
-          //  System.out.println(s);
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
