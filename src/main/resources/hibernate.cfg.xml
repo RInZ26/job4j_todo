@@ -17,8 +17,6 @@
         <property name="format_sql">true</property>
         <property name="use_sql_comments">true</property>
         <property name="hibernate.jdbc.time_zone">Asia/Yekaterinburg</property>
-        <mapping class="ru.job4j.lesson.expirements.models.Car"/>
-        <mapping class="ru.job4j.lesson.expirements.models.Engine"/>
-        <mapping class="ru.job4j.lesson.expirements.models.Driver"/>
+        <mapping class="ru.job4j.lesson.expirements.hql.Candidate"/>
     </session-factory>
 </hibernate-configuration>
