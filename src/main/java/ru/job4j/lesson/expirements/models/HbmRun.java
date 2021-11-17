@@ -17,14 +17,16 @@ public class HbmRun {
                     .openSession();
             session.beginTransaction();
 
-            Car c = new Car();
-            Engine e = new Engine();
-            HistoryOwner historyOwner = new HistoryOwner();
-            Driver driver = new Driver();
-
-            session.save(c);
-            session.save(e);
+            Car car = new Car();
+            Engine engine = new Engine();
+            Driver historyOwner = new Driver();
             session.save(historyOwner);
+
+            Driver driver = new Driver();
+            car.addHistoryOwner(historyOwner);
+            session.save(car);
+            session.save(engine);
+
             session.save(driver);
 
             session.getTransaction().commit();

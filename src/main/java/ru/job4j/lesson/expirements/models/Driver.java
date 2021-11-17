@@ -5,19 +5,32 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "drivers")
+@Setter
+@Getter
 public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
     private Long id;
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @Getter
-    @Setter
+    @JoinColumn(name = "car_id")
     private Set<Car> cars = new HashSet<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Driver driver = (Driver) o;
+        return id.equals(driver.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

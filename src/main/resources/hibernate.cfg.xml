@@ -20,6 +20,5 @@
         <mapping class="ru.job4j.lesson.expirements.models.Car"/>
         <mapping class="ru.job4j.lesson.expirements.models.Engine"/>
         <mapping class="ru.job4j.lesson.expirements.models.Driver"/>
-        <mapping class="ru.job4j.lesson.expirements.models.HistoryOwner"/>
     </session-factory>
 </hibernate-configuration>
