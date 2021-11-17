@@ -12,6 +12,8 @@ public class HbmRun {
     public static void main(String[] args) {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();
+
+        Candidate result = null;
         try {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
             Session session = sf
@@ -21,28 +23,24 @@ public class HbmRun {
             session.beginTransaction();
 
             Candidate alina = Candidate.of("alina", "20 years", 6666L);
-            Candidate lera = Candidate.of("lera", "1 year", 10L);
-            Candidate anya = Candidate.of("anya", "infinity", Long.MAX_VALUE);
 
+            Vacancy vacancyFirst = Vacancy.of("Java Dev");
+            Vacancy vacancySecond = Vacancy.of("Spring Dev");
+
+            VacancyRepo successFullPeople = VacancyRepo.of("success");
+
+            session.save(vacancyFirst);
+            session.save(vacancySecond);
+            session.save(successFullPeople);
             session.save(alina);
-            session.save(lera);
-            session.save(anya);
 
-            Candidate uniqueAlina = (Candidate) session.createQuery("from Candidate c where c.id = :id")
-                    .setParameter("id", 1)
-                    .uniqueResult();
+            alina.setVacancyRepo(successFullPeople);
 
-            Candidate uniqueAnya = (Candidate) session.createQuery("from Candidate c where c.name = :name")
-                    .setParameter("name", "anya")
-                    .uniqueResult();
+            successFullPeople.addVacancy(vacancyFirst);
+            successFullPeople.addVacancy(vacancySecond);
 
-            session.createQuery("update Candidate c set c.name ="
-                            + "(select concat(cc.name,  'BAD_GIRL') from Candidate cc where cc.id = :idS)" + "  where c.id = :id")
-                    .setParameter("id", 3)
-                    .setParameter("idS", 2)
-                    .executeUpdate();
-
-            lera.setExpirience("Sc2 pro 11 years");
+            result = (Candidate) session.createQuery("from Candidate c join fetch c.vacancyRepo vr join fetch vr.vacancies v where c.id = :id")
+                    .setParameter("id", 1).uniqueResult();
 
             session.createQuery("delete from Candidate c where c.id = :id")
                     .setParameter("id", 1)
@@ -55,5 +53,6 @@ public class HbmRun {
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
         }
+        result.getVacancyRepo().getVacancies().forEach(v -> System.out.println(v.getName()));
     }
 }

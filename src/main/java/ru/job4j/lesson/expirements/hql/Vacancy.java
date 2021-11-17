@@ -11,26 +11,20 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Candidate {
+public class Vacancy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
 
-    private String expirience;
-
-    private long salary;
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private VacancyRepo vacancyRepo;
 
-    public static Candidate of(String name, String expirience, long salary) {
-        Candidate candidate = new Candidate();
-        candidate.setExpirience(expirience);
-        candidate.setName(name);
-        candidate.setSalary(salary);
-        return candidate;
+    public static Vacancy of(String name) {
+        Vacancy vacancy = new Vacancy();
+        vacancy.setName(name);
+        return vacancy;
     }
 
     @Override
@@ -41,8 +35,8 @@ public class Candidate {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Candidate candidate = (Candidate) o;
-        return id == candidate.id;
+        Vacancy vacancy = (Vacancy) o;
+        return id == vacancy.id;
     }
 
     @Override
