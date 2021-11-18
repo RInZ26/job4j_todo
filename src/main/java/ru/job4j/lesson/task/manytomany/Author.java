@@ -1,4 +1,4 @@
-package ru.job4j.lesson.task.manyToMany;
+package ru.job4j.lesson.task.manytomany;
 
 import lombok.*;
 

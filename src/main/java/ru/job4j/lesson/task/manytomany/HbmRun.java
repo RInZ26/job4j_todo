@@ -1,4 +1,4 @@
-package ru.job4j.lesson.task.manyToMany;
+package ru.job4j.lesson.task.manytomany;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,8 +9,6 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import java.util.ArrayList;
 
 public class HbmRun {
-
-
     public static void main(String[] args) {
         addTestGrop();
         rmTestGrop();
@@ -65,7 +63,7 @@ public class HbmRun {
      * author.getBooks().remove(book);
      * session.remove(book);
      * session.remove(author);
-     *
+     * <p>
      * или через извращение, чтобы победить ConcurrentModification
      */
     public static void rmTestGrop() {

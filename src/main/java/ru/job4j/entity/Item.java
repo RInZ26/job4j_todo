@@ -37,17 +37,17 @@ public class Item {
     @Setter
     private JUser user;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Getter
+    @Setter
+    private Set<Category> categories = new HashSet<>();
+
     public static Item of(String description) {
         Item item = new Item();
         item.setDescription(description);
         item.setCreated(new Date(System.currentTimeMillis()));
         return item;
     }
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @Getter
-    @Setter
-    private Set<Category> categories = new HashSet<>();
 
     public void addCategory(Category category) {
         this.categories.add(category);

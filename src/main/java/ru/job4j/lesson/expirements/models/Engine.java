@@ -22,10 +22,14 @@ public class Engine {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Engine)) {
+            return false;
+        }
         Engine engine = (Engine) o;
-        return id.equals(engine.id);
+        return Objects.equals(id, engine.id);
     }
 
     @Override

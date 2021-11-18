@@ -1,4 +1,4 @@
-package ru.job4j.lesson.expirements.oneToMany;
+package ru.job4j.lesson.expirements.onetomany;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +26,7 @@ public class HbmRun {
 
             session.getTransaction().commit();
             session.close();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);

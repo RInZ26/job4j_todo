@@ -26,7 +26,8 @@ public class Car {
     @ManyToMany
     @JoinTable(name = "historyOwners", joinColumns = {
             @JoinColumn(name = "driver_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "car_id", nullable = false, updatable = false)})
+            inverseJoinColumns = {@JoinColumn(name = "car_id",
+                    nullable = false, updatable = false)})
     private Set<Driver> hOwners = new HashSet<>();
 
     public void addHistoryOwner(Driver historyOwner) {

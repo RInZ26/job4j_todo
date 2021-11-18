@@ -6,8 +6,8 @@
 
 ----------------------------------------ENTITIES ДЛЯ HBMRUN В hibernate.cfg
 
-        <mapping class="ru.job4j.lesson.expirements.manyToMany.Person"/>
-        <mapping class="ru.job4j.lesson.expirements.manyToMany.Address"/>
+        <mapping class="ru.job4j.lesson.expirements.manytomany.Person"/>
+        <mapping class="ru.job4j.lesson.expirements.manytomany.Address"/>
 
 
 

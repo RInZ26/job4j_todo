@@ -1,6 +1,9 @@
 package ru.job4j.lesson.task.lazyinit;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,7 +13,6 @@ import java.util.List;
 @Table(name = "carBrands")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(of={"id", "name"})
 public class CarBrand {
 
     @Id

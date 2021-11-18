@@ -1,4 +1,4 @@
-package ru.job4j.lesson.expirements.manyToMany;
+package ru.job4j.lesson.expirements.manytomany;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,8 +49,12 @@ public class Person {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Person person = (Person) o;
         return id == person.id;
     }

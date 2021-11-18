@@ -1,4 +1,4 @@
-package ru.job4j.lesson.expirements.manyToOne;
+package ru.job4j.lesson.expirements.manytoone;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

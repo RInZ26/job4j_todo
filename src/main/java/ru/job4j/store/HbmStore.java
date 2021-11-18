@@ -60,24 +60,26 @@ public class HbmStore implements Store, Closeable {
 
     @Override
     public <T> T findById(int id, Class clazz) {
-        return this.<T>performTx(s -> (T) (s.createQuery("from  " + clazz.getSimpleName()
+        return this.performTx(s -> (T) (s.createQuery("from  " + clazz.getSimpleName()
                 + " where id = :id").setParameter("id", id).uniqueResult()));
     }
 
     @Override
     public <T> boolean delete(int id, Class clazz) {
-        return this.performTx(s -> s.createQuery("DELETE from " + clazz.getSimpleName() + " WHERE id = :id")
+        return this.performTx(s -> s.createQuery("DELETE from " + clazz.getSimpleName()
+                        + " WHERE id = :id")
                 .setParameter("id", id).executeUpdate() > 0);
     }
 
     @Override
     public <T> List<T> findAll(Class clazz) {
-        return this.<List<T>>performTx(s -> s.createQuery("from " + clazz.getSimpleName() + " order by id").list());
+        return this.<List<T>>performTx(s -> s.createQuery("from " + clazz.getSimpleName()
+                + " order by id").list());
     }
 
-
     public List<Item> findItemsByDone(boolean done) {
-        return this.<List<Item>>performTx(s -> s.createQuery("SELECT DISTINCT i FROM Item i join fetch i.categories where i.done = :done  order by i.id")
+        return this.<List<Item>>performTx(s -> s.createQuery("  FROM Item i "
+                        + "join fetch i.categories where i.done = :done  order by i.id")
                 .setParameter("done", done).list());
     }
 
@@ -91,7 +93,7 @@ public class HbmStore implements Store, Closeable {
 
     @Override
     public JUser findUserByEmail(String email) {
-        return this.<JUser>performTx(s -> (JUser) s.createQuery("from JUser where email = :email")
+        return this.performTx(s -> (JUser) s.createQuery("from JUser where email = :email")
                 .setParameter("email", email).uniqueResult());
     }
 
@@ -102,7 +104,9 @@ public class HbmStore implements Store, Closeable {
 
     @Override
     public Item findItem(int id) {
-        return this.<Item>performTx(s -> (Item) s.createQuery("SELECT DISTINCT i FROM Item i join fetch i.categories where i.id = :id").setParameter("id", id).uniqueResult());
+        return this.performTx(s -> (Item) s.createQuery("SELECT DISTINCT i "
+                + "FROM Item i join fetch i.categories where i.id = :id")
+                .setParameter("id", id).uniqueResult());
     }
 
     @Override

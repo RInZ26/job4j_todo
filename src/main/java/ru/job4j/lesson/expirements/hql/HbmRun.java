@@ -42,10 +42,12 @@ public class HbmRun {
             successFullPeople.addVacancy(vacancyFirst);
             successFullPeople.addVacancy(vacancySecond);
 
-            result = (Candidate) session.createQuery("from Candidate c join fetch c.vacancyRepo vr join fetch vr.vacancies v where c.id = :id")
+            result = (Candidate) session.createQuery("from Candidate c join fetch c.vacancyRepo vr "
+                            + "join fetch vr.vacancies v where c.id = :id")
                     .setParameter("id", 1).uniqueResult();
 
-            findCandidateByName(session, "alina").forEach(c -> System.out.println(c.getId() + "  " + c.getSalary()));
+            findCandidateByName(session, "alina").forEach(c -> System.out.println(c.getId() + "  "
+                    + c.getSalary()));
 
             session.getTransaction().commit();
             session.close();

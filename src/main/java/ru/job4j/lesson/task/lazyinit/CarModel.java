@@ -1,6 +1,9 @@
 package ru.job4j.lesson.task.lazyinit;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -8,7 +11,6 @@ import javax.persistence.*;
 @Table(name = "car_models")
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(of={"id", "name"})
 public class CarModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

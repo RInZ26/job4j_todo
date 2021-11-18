@@ -11,12 +11,14 @@ import java.io.IOException;
 
 public class RegServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         req.getRequestDispatcher("/security/reg.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         String email = req.getParameter("email");
         String name = req.getParameter("name");
         String firstPass = req.getParameter("firstPassword");
@@ -45,7 +47,9 @@ public class RegServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    private void finishWorkByError(String errorMsg, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private void finishWorkByError(String errorMsg, HttpServletRequest req,
+                                   HttpServletResponse resp)
+            throws ServletException, IOException {
         req.setAttribute("error", errorMsg);
         req.getRequestDispatcher("/security/reg.jsp").forward(req, resp);
     }

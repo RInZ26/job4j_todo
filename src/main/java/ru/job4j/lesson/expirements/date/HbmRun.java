@@ -18,13 +18,13 @@ public class HbmRun {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
             Session session = sf
                     .withOptions()
-                      .jdbcTimeZone(TimeZone.getTimeZone("UTC"))
+                    .jdbcTimeZone(TimeZone.getTimeZone("UTC"))
                     .openSession();
             session.beginTransaction();
 
             Product pr = Product.of("Молоко", "Савушкин продукт");
             session.save(pr);
-           Date f = session.find(Product.class, 4).getCreated();
+            Date f = session.find(Product.class, 4).getCreated();
             System.out.println(f);
             session.getTransaction().commit();
             session.close();

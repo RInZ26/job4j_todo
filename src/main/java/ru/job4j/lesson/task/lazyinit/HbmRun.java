@@ -41,7 +41,6 @@ public class HbmRun {
             StandardServiceRegistryBuilder.destroy(registry);
         }
 
-
         registry = new StandardServiceRegistryBuilder()
                 .configure().build();
 
@@ -50,7 +49,8 @@ public class HbmRun {
             Session session = sf.openSession();
             session.beginTransaction();
 
-            List<CarBrand> carBrand = session.createQuery("select cb from CarBrand cb join fetch cb.carModels").list();
+            List<CarBrand> carBrand = session.createQuery("select cb "
+                    + "from CarBrand cb join fetch cb.carModels").list();
             session.getTransaction().commit();
             session.close();
 
@@ -60,7 +60,5 @@ public class HbmRun {
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
         }
-
-
     }
 }

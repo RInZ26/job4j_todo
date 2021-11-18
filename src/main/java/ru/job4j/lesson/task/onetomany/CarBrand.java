@@ -1,4 +1,4 @@
-package ru.job4j.lesson.task.oneToMany;
+package ru.job4j.lesson.task.onetomany;
 
 import lombok.*;
 

@@ -18,7 +18,8 @@ public class CategoryServlet extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         resp.setContentType("application/json; charset=utf-8");
 
         OutputStream output = resp.getOutputStream();
@@ -29,7 +30,8 @@ public class CategoryServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         Category category = GSON.fromJson(req.getReader(), Category.class);
         HbmStore.getInst().add(category);
 

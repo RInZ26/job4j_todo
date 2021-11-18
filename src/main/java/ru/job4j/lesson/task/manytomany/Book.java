@@ -1,17 +1,18 @@
-package ru.job4j.lesson.task.manyToMany;
+package ru.job4j.lesson.task.manytomany;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-
 @Table(name = "books")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = {"id"})
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

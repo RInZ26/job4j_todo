@@ -21,12 +21,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 public class IndexServlet extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
         resp.setContentType("application/json; charset=utf-8");
         Object byDone = req.getParameter("byDone");
@@ -44,7 +44,8 @@ public class IndexServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException, ServletException {
         Item item = Item.of(req.getParameter("description"));
 
         HttpSession sc = req.getSession();
@@ -53,9 +54,9 @@ public class IndexServlet extends HttpServlet {
 
         String[] cats = req.getParameterValues("cats[]");
 
-
         if (Objects.nonNull(cats)) {
-            item.setCategories(Arrays.stream(cats).map(c -> new Category(Integer.parseInt(c), null))
+            item.setCategories(Arrays.stream(cats).map(c
+                            -> new Category(Integer.parseInt(c), null))
                     .collect(Collectors.toSet()));
         }
 
@@ -70,7 +71,8 @@ public class IndexServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         Item item = GSON.fromJson(req.getReader(), Item.class);
 
         HbmStore.getInst().replaceByDone(item.getId(), item.isDone());

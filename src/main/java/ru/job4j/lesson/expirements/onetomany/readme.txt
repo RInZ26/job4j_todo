@@ -13,8 +13,8 @@ OneToMany и при этом она ассоциирована с коллекц
  удаление так называемых "сирот", т.е. строк, которые ни с чем не ассоциированы.
 
  ----------------------------------------ENTITIES ДЛЯ HBMRUN В hibernate.cfg
-         <mapping class="ru.job4j.lesson.expirements.oneToMany.User" />
-         <mapping class="ru.job4j.lesson.expirements.oneToMany.Role" />
+         <mapping class="ru.job4j.lesson.expirements.onetomany.User" />
+         <mapping class="ru.job4j.lesson.expirements.onetomany.Role" />
 
 
 ----------------------------------------МЫСЛИ

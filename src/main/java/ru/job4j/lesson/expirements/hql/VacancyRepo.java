@@ -29,7 +29,8 @@ public class VacancyRepo {
         return vacancyRepo;
     }
 
-    public void addVacancy(Vacancy vacancy) throws Exception {
+    public void addVacancy(Vacancy vacancy)
+            throws Exception {
         if (vacancy == null) {
             throw new NullPointerException();
         }

@@ -18,7 +18,8 @@ public class RegHelper {
     }
 
     /**
-     * Валидация паролей (отдельно, потому что можно накрутить логику проверки наличия цифрк и прочей шляпы)
+     * Валидация паролей (отдельно, потому что можно накрутить логику
+     * проверки наличия цифрк и прочей шляпы)
      *
      * @param passFirst
      * @param passSecond
@@ -27,7 +28,6 @@ public class RegHelper {
     public static boolean validatePasswords(String passFirst, String passSecond) {
         return passFirst.equals(passSecond);
     }
-
 
     /**
      * Прослойка, чтобы не вызывать Store из сервлета
@@ -38,6 +38,6 @@ public class RegHelper {
      * @return
      */
     public static void saveUser(String name, String email, String pass) {
-        HbmStore.getInst().<JUser>add(JUser.builder().name(name).email(email).password(pass).build());
+        HbmStore.getInst().add(JUser.builder().name(name).email(email).password(pass).build());
     }
 }

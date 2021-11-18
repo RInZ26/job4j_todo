@@ -1,5 +1,4 @@
-package ru.job4j.lesson.expirements.lazyInitException;
-
+package ru.job4j.lesson.task.onetomany;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -13,7 +12,6 @@ import java.util.List;
 public class HbmRun {
 
     public static void main(String[] args) {
-        List<Category> list = new ArrayList<>();
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();
         try {
@@ -21,7 +19,20 @@ public class HbmRun {
             Session session = sf.openSession();
             session.beginTransaction();
 
-            list = session.createQuery("from Category c join fetch c.tasks ").list();
+            CarModel first = CarModel.builder().name("alina").build();
+            CarModel second = CarModel.builder().name("nastya").build();
+            CarModel third = CarModel.builder().name("anya").build();
+            CarModel fourth = CarModel.builder().name("goddess").build();
+            CarModel fifth = CarModel.builder().name("princess").build();
+
+            List<CarModel> models = new ArrayList<>(List.of(first, second,
+                    third, fourth, fifth));
+
+            models.forEach(session::save);
+
+            CarBrand brand = CarBrand.builder().name("prettyGirls").carModels(models).build();
+
+            session.save(brand);
 
             session.getTransaction().commit();
             session.close();
@@ -29,11 +40,6 @@ public class HbmRun {
             e.printStackTrace();
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
-        }
-        for (Category category : list) {
-            for (Task task : category.getTasks()) {
-                System.out.println(task);
-            }
         }
     }
 }

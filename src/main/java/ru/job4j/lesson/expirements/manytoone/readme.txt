@@ -26,8 +26,8 @@ create(User.of("Petr Arsentev", recreated), sf);
 
 ----------------------------------------ENTITIES ДЛЯ HBMRUN В hibernate.cfg
 
-        <mapping class="ru.job4j.lesson.expirements.manyToOne.User" />
-        <mapping class="ru.job4j.lesson.expirements.manyToOne.Role" />
+        <mapping class="ru.job4j.lesson.expirements.manytoone.User" />
+        <mapping class="ru.job4j.lesson.expirements.manytoone.Role" />
 
 
 

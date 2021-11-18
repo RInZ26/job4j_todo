@@ -1,6 +1,8 @@
-package ru.job4j.lesson.expirements.manyToOne;
+package ru.job4j.lesson.expirements.onetomany;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,11 +13,17 @@ public class Role {
     private int id;
 
     private String name;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<User> users = new ArrayList<>();
 
     public static Role of(String name) {
         Role role = new Role();
         role.name = name;
         return role;
+    }
+
+    public void addUser(User u) {
+        this.users.add(u);
     }
 
     public int getId() {
@@ -34,10 +42,22 @@ public class Role {
         this.name = name;
     }
 
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Role)) {
+            return false;
+        }
         Role role = (Role) o;
         return id == role.id;
     }
